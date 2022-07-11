@@ -22,10 +22,10 @@ function getNumber(number) {
   const stringNumber = number.toString()
   const integerDigits = parseFloat(stringNumber.split('.')[0])
   const decimalDigits = stringNumber.split('.')[1]
-  let integerDisplay = integerDigits.toLocaleString('en', {
+  const integerDisplay = integerDigits.toLocaleString('en', {
     maximumFractionDigits: 0
   })
-  if (decimalDigits !== undefined && decimalDigits !== '') {
+  if (typeof foo === "undefined" && decimalDigits !== '') {
     return `${integerDisplay}.${decimalDigits}`
   }
   return integerDisplay
@@ -33,6 +33,7 @@ function getNumber(number) {
 }
 //reducer function that manipulate the states ands do the logic of the calculator
 function reducer(state, action) {
+  let value = state.result
   switch (action.type) {
     case 'init':
       return state;
@@ -46,14 +47,14 @@ function reducer(state, action) {
           return { ...state, result: '', operand2: '' }
         }
         return { ...state, result: -state.result, operand2: -state.result }
-      } else {
-        if (state.result === 0) {
-          return { ...state, result: '-', operand1: '-' }
-        } else if (state.result === '-') {
-          return { ...state, result: 0, operand1: 0 }
-        }
-        return { ...state, result: -state.result, operand1: -state.result }
       }
+      if (state.result === 0) {
+        return { ...state, result: '-', operand1: '-' }
+      } else if (state.result === '-') {
+        return { ...state, result: 0, operand1: 0 }
+      }
+      return { ...state, result: -state.result, operand1: -state.result }
+
     case 'operator':
       if (state.operator !== '' && state.operand2 === '') {
         return { ...state, operator: action.value, result: '', operation: state.operand1 + action.value }
@@ -65,7 +66,6 @@ function reducer(state, action) {
       return { ...state, operator: action.value, result: '', operation: state.result + action.value, operand1: state.result }
 
     case 'number':
-      let value = state.result
       if (state.result + action.value === '00') {
         return { ...state }
       }

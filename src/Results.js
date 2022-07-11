@@ -1,3 +1,4 @@
+import React from "react"
 // Return the calculator result
 function Result(props) {
   const { children } = props

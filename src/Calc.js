@@ -1,6 +1,6 @@
+import { getNumber, reducer } from "./functions";
 import React from "react";
 import Result from "./Results";
-import { getNumber, reducer } from "./functions";
 //initial state of the app
 const initialState = { operand1: 0, operand2: '', result: 0, operator: '', operation: '' }
 // Calc component that return the whole Calculator
