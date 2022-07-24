@@ -25,7 +25,7 @@ function getNumber(number) {
   const integerDisplay = integerDigits.toLocaleString('en', {
     maximumFractionDigits: 0
   })
-  if (typeof foo === "undefined" && decimalDigits !== '') {
+  if (typeof decimalDigits !== "undefined" && decimalDigits !== '') {
     return `${integerDisplay}.${decimalDigits}`
   }
   return integerDisplay
@@ -34,6 +34,7 @@ function getNumber(number) {
 //reducer function that manipulate the states ands do the logic of the calculator
 function reducer(state, action) {
   let value = state.result
+  let stateReturned = state
   switch (action.type) {
     case 'init':
       return state;
@@ -41,12 +42,14 @@ function reducer(state, action) {
       return { ...state, result: 0, operator: '' };
     case 'flip-sign':
       if (state.operator !== '') {
-        if (state.result === '') {
-          return { ...state, result: '-', operand2: '-' }
-        } else if (state.result === '-') {
-          return { ...state, result: '', operand2: '' }
-        }
-        return { ...state, result: -state.result, operand2: -state.result }
+        state.result === '' ?
+          stateReturned = { ...state, result: '-', operand2: '-' } :
+          state.result === '-' ?
+            stateReturned = { ...state, result: '', operand2: '' } :
+
+            stateReturned = { ...state, result: -state.result, operand2: -state.result }
+
+        return stateReturned
       }
       if (state.result === 0) {
         return { ...state, result: '-', operand1: '-' }
@@ -66,6 +69,14 @@ function reducer(state, action) {
       return { ...state, operator: action.value, result: '', operation: state.result + action.value, operand1: state.result }
 
     case 'number':
+      //function to limit the number in the caclulatoe to only be 10 digits
+      function limit() {
+        if (String(state.result).length >= 10) {
+          value = state.result
+        } else {
+          value = state.result + action.value
+        }
+      }
       if (state.result + action.value === '00') {
         return { ...state }
       }
@@ -73,21 +84,11 @@ function reducer(state, action) {
         if (state.result !== state.operand1) {
           return { ...state, result: action.value, operand1: action.value }
         }
-        if (state.result === 0) { value = action.value } else {
+        state.result === 0 ? value = action.value : limit();
 
-          if (String(state.result).length >= 10) {
-            value = state.result
-          } else {
-            value = state.result + action.value
-          }
-        }
         return { ...state, result: value, operand1: value }
       }
-      if (String(state.result).length >= 10) {
-        value = state.result
-      } else {
-        value = state.result + action.value
-      }
+      limit()
       return { ...state, result: value, operand2: value }
 
     case 'equal':

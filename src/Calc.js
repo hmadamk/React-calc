@@ -1,13 +1,13 @@
 import { getNumber, reducer } from "./functions";
-import React, { useCallback } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import Result from "./Results";
 //initial state of the app
 const initialState = { operand1: 0, operand2: '', result: 0, operator: '', operation: '' }
 // Calc component that return the whole Calculator
 function Calc() {
-  const myDispatch = useCallback((e, type) => dispatch({ type: e.target.getAttribute('data-action'), value: e.target.innerText }), [])
-  const [{ result, operation }, dispatch] = React.useReducer(reducer, initialState)
-  React.useEffect(() => {
+  const myDispatch = useCallback((e) => dispatch({ type: e.target.getAttribute('data-action'), value: e.target.innerText }), [])
+  const [{ result, operation }, dispatch] = useReducer(reducer, initialState)
+  useEffect(() => {
     dispatch({ type: 'init' });
   }, []);
   return (
