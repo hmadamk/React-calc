@@ -1,5 +1,6 @@
 import { getNumber, reducer } from "./functions";
 import { useCallback, useEffect, useReducer } from "react";
+import React from "react";
 import Result from "./Results";
 //initial state of the app
 const initialState = { operand1: 0, operand2: '', result: 0, operator: '', operation: '' }
