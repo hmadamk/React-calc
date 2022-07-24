@@ -35,6 +35,14 @@ function getNumber(number) {
 function reducer(state, action) {
   let value = state.result
   let stateReturned = state
+  //function to limit the number in the caclulatoe to only be 10 digits
+  function limit() {
+    if (String(state.result).length >= 10) {
+      value = state.result
+    } else {
+      value = state.result + action.value
+    }
+  }
   switch (action.type) {
     case 'init':
       return state;
@@ -69,14 +77,6 @@ function reducer(state, action) {
       return { ...state, operator: action.value, result: '', operation: state.result + action.value, operand1: state.result }
 
     case 'number':
-      //function to limit the number in the caclulatoe to only be 10 digits
-      function limit() {
-        if (String(state.result).length >= 10) {
-          value = state.result
-        } else {
-          value = state.result + action.value
-        }
-      }
       if (state.result + action.value === '00') {
         return { ...state }
       }
