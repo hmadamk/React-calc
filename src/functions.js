@@ -43,11 +43,33 @@ function reducer(state, action) {
       value = state.result + action.value
     }
   }
+  function handleOperator() {
+    state.result === '' ?
+      stateReturned = { ...state, result: '-', operand2: '-' } :
+      state.result === '-' ?
+        stateReturned = { ...state, result: '', operand2: '' } :
+
+        stateReturned = { ...state, result: -state.result, operand2: -state.result }
+
+    return stateReturned
+  }
   switch (action.type) {
     case 'init':
       return stateReturned;
     case 'clear':
       return { ...state, result: 0, operator: '' };
+    case 'flip-sign':
+      if (state.operator !== '') {
+        handleOperator()
+        return stateReturned
+      }
+      if (state.result === 0) {
+        return { ...state, result: '-', operand1: '-' }
+      } else if (state.result === '-') {
+        return { ...state, result: 0, operand1: 0 }
+      }
+      return { ...state, result: -state.result, operand1: -state.result }
+
     case 'operator':
       if (state.operator !== '' && state.operand2 === '') {
         return { ...state, operator: action.value, result: '', operation: state.operand1 + action.value }
