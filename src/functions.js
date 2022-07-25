@@ -43,6 +43,7 @@ function reducer(state, action) {
       value = state.result + action.value
     }
   }
+  //function used to reduse the level of complexity of the function
   function handleOperator() {
     state.result === '' ?
       stateReturned = { ...state, result: '-', operand2: '-' } :
