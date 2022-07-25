@@ -5,8 +5,8 @@ import Result from "./Results";
 const initialState = { operand1: 0, operand2: '', result: 0, operator: '', operation: '' }
 // Calc component that return the whole Calculator
 function Calc() {
-  const myDispatch = useCallback((e) => dispatch({ type: e.target.getAttribute('data-action'), value: e.target.innerText }), [])
   const [{ result, operation }, dispatch] = useReducer(reducer, initialState)
+  const myDispatch = useCallback((e) => dispatch({ type: e.target.getAttribute('data-action'), value: e.target.innerText }), [])
   useEffect(() => {
     dispatch({ type: 'init' });
   }, []);
