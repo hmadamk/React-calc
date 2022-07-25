@@ -48,7 +48,6 @@ function reducer(state, action) {
       return stateReturned;
     case 'clear':
       return { ...state, result: 0, operator: '' };
-
     case 'operator':
       if (state.operator !== '' && state.operand2 === '') {
         return { ...state, operator: action.value, result: '', operation: state.operand1 + action.value }
